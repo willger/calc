@@ -13,37 +13,30 @@
         font-family: Arial, sans-serif;
     }
 
-    /* Outer handheld frame */
     .handheld {
         width: 692px;
         height: 600px;
-        background-image: url('images/batman.png'); /* <-- replace with your file */
+        background-image: url('images/batman.png');
         background-repeat: no-repeat;
         background-position: center;
         position: relative;
     }
 
-    /* LCD window area */
     .lcd-window {
         position: absolute;
-
-        /* These values match the Batman handheld proportions */
         top: 159px;
         left: 201px;
         width: 280px;
         height: 180px;
-
         background: #b6d39c;
         border: 3px solid #222;
         border-radius: 4px;
         overflow: hidden;
-
         box-shadow:
             inset 0 0 10px rgba(0,0,0,0.4),
             inset 0 0 3px rgba(255,255,255,0.3);
     }
 
-    /* LCD pixel grid */
     .lcd-window::after {
         content: "";
         position: absolute;
@@ -55,13 +48,35 @@
         pointer-events: none;
     }
 
-    /* Calculator content inside LCD */
     .content {
         padding: 10px;
         font-family: "Courier New", monospace;
         color: #1a2f0f;
         font-weight: bold;
         text-align: center;
+    }
+
+    /* CLICKABLE RESULT */
+    #resultBubble {
+        margin: 8px auto;
+        padding: 6px 10px;
+        background: rgba(255,255,255,0.4);
+        border-radius: 6px;
+        display: inline-block;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.1s;
+    }
+
+    #resultBubble:hover {
+        background: rgba(255,255,255,0.6);
+        transform: scale(1.05);
+    }
+
+    #copiedMsg {
+        font-size: 14px;
+        margin-top: 4px;
+        color: #0a3f0a;
+        display: none;
     }
 
     input {
@@ -90,7 +105,9 @@
 
     <div class="lcd-window">
         <div class="content">
-            <div id="result">Weight Loss % Calculator</div>
+
+            <div id="resultBubble" onclick="copyPercent()">Weight Loss % Calculator</div>
+            <div id="copiedMsg">Copied!</div>
 
             <input id="start" type="number" placeholder="Starting Weight">
             <input id="current" type="number" placeholder="Current Weight">
@@ -107,15 +124,36 @@ function calculate() {
     const current = parseFloat(document.getElementById('current').value);
 
     if (isNaN(start) || isNaN(current) || start <= 0 || current <= 0) {
-        document.getElementById('result').innerText = "Enter valid weights";
+        document.getElementById('resultBubble').innerText = "Enter valid weights";
         return;
     }
 
     const loss = start - current;
     const percent = (loss / start) * 100;
 
-    document.getElementById('result').innerText =
+    document.getElementById('resultBubble').innerText =
         `Loss: ${loss.toFixed(1)} lbs (${percent.toFixed(2)}%)`;
+
+    document.getElementById('copiedMsg').style.display = "none";
+}
+
+function copyPercent() {
+    const text = document.getElementById('resultBubble').innerText;
+
+    // Extract only the percent value inside parentheses
+    const match = text.match(/\((.*?)\)/);
+    if (!match) return;
+
+    const percentOnly = match[1];
+
+    navigator.clipboard.writeText(percentOnly);
+
+    const msg = document.getElementById('copiedMsg');
+    msg.style.display = "block";
+
+    setTimeout(() => {
+        msg.style.display = "none";
+    }, 1200);
 }
 </script>
 
