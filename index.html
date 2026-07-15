@@ -5,39 +5,31 @@
 <title>Batman Handheld Skin</title>
 
 <style>
-   body {
+  body {
     background: #d0d0d0;
     display: flex;
     justify-content: center;
-    padding: 40px;
+    padding: 20px;
     font-family: Arial, sans-serif;
 }
 
-/* Outer handheld frame */
+/* MOBILE-FIRST: handheld fills screen width */
 .handheld {
-    width: 692px;
-    height: 600px;
+    width: 100vw;
+    height: auto;
     background-image: url('images/batman.png');
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+    background-position: center top;
+    background-size: 100% auto;
     position: relative;
 }
-   
-#copyHint {
-    font-size: 14px;
-    margin-top: 4px;
-    color: #0a3f0a;
-    opacity: 0.8;
-}
-/* LCD window area */
-.lcd-window {
-    position: absolute;
-    top: 159px;
-    left: 201px;
-    width: 280px;
-    height: 300px;
 
+/* LCD window = 75% of screen width */
+.lcd-window {
+    width: 75vw;
+    height: calc(75vw * 1.1); /* proportional height */
+    margin: 0 auto;
+    margin-top: 20vw; /* pushes LCD down into correct area */
     background: #b6d39c;
     border: 3px solid #222;
     border-radius: 4px;
@@ -68,7 +60,6 @@
     text-align: center;
 }
 
-/* CLICKABLE RESULT */
 #resultBubble {
     margin: 8px auto;
     padding: 10px 14px;
@@ -77,7 +68,7 @@
     display: inline-block;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
-    font-size: 18px;
+    font-size: 5vw;
 }
 
 #resultBubble:hover {
@@ -85,79 +76,81 @@
     transform: scale(1.05);
 }
 
+#copyHint,
 #copiedMsg {
-    font-size: 14px;
+    font-size: 3.5vw;
     margin-top: 4px;
     color: #0a3f0a;
+}
+
+#copiedMsg {
     display: none;
 }
 
-input {
+input,
+button {
     width: 90%;
-    padding: 14px;
-    margin-top: 10px;
+    padding: 3vw;
+    margin-top: 3vw;
     border-radius: 6px;
     border: 1px solid #555;
-    font-size: 18px;
+    font-size: 4.5vw;
 }
 
 button {
-    width: 90%;
-    padding: 14px;
-    margin-top: 14px;
     background: #444;
     color: white;
-    border: none;
-    border-radius: 6px;
     cursor: pointer;
-    font-size: 18px;
 }
 
 /* ----------------------------- */
-/* MOBILE RESPONSIVE MODE        */
+/* DESKTOP MODE (restore original layout) */
 /* ----------------------------- */
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
 
     body {
-        padding: 10px;
+        padding: 40px;
     }
 
     .handheld {
-        width: 100vw;
-        height: calc(100vw * 0.85); /* maintain aspect ratio */
+        width: 692px;
+        height: 600px;
+        background-size: contain;
     }
 
     .lcd-window {
-        /* scale LCD window proportionally */
-        top: calc(159px * (100vw / 692));
-        left: calc(201px * (100vw / 692));
-        width: calc(280px * (100vw / 692));
-        height: calc(180px * (100vw / 692));
+        position: absolute;
+        top: 159px;
+        left: 201px;
+        width: 280px;
+        height: 300px;
+        margin: 0;
     }
 
     #resultBubble {
-        font-size: calc(18px * (100vw / 692));
-        padding: calc(10px * (100vw / 692));
+        font-size: 18px;
+        padding: 10px 14px;
     }
 
-    input {
-        font-size: calc(18px * (100vw / 692));
-        padding: calc(14px * (100vw / 692));
-    }
-
+    input,
     button {
-        font-size: calc(18px * (100vw / 692));
-        padding: calc(14px * (100vw / 692));
+        font-size: 18px;
+        padding: 14px;
+    }
+
+    #copyHint,
+    #copiedMsg {
+        font-size: 14px;
     }
 }
+
 
 </style>
 </head>
 <body>
 
 <div class="handheld">
-
     <div class="lcd-window">
         <div class="content">
 
@@ -171,7 +164,6 @@ button {
             <button onclick="calculate()">Calculate</button>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -206,7 +198,7 @@ function copyPercent() {
 
     if (isNaN(numeric)) return;
 
-    const formatted = numeric.toFixed(1) + "%";
+    const formatted = numeric.toFixed(2) + "%";
 
     navigator.clipboard.writeText(formatted);
 
