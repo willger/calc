@@ -14,23 +14,25 @@
     font-family: Arial, sans-serif;
 }
 
-/* Base: desktop styles */
+/* MOBILE-FIRST BASE */
 .handheld {
-    width: 692px;
-    height: 600px;
+    width: 100vw;
+    height: 100vh;
     background-image: url('images/batman.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
+    background-size: cover; /* crop allowed */
     position: relative;
 }
 
+/* LCD takes up 75% of screen width */
 .lcd-window {
+    width: 75vw;
+    height: calc(75vw * (300 / 280)); /* keep original aspect ratio */
     position: absolute;
-    top: 159px;
-    left: 201px;
-    width: 280px;
-    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* center on screen */
 
     background: #b6d39c;
     border: 3px solid #222;
@@ -64,13 +66,13 @@
 
 #resultBubble {
     margin: 8px auto;
-    padding: 10px 14px;
+    padding: 3vw 4vw;
     background: rgba(255,255,255,0.4);
     border-radius: 6px;
     display: inline-block;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
-    font-size: 18px;
+    font-size: 5vw;
 }
 
 #resultBubble:hover {
@@ -78,82 +80,67 @@
     transform: scale(1.05);
 }
 
-#copyHint {
-    font-size: 14px;
+#copyHint,
+#copiedMsg {
+    font-size: 3.5vw;
     margin-top: 4px;
     color: #0a3f0a;
-    opacity: 0.8;
 }
 
 #copiedMsg {
-    font-size: 14px;
-    margin-top: 4px;
-    color: #0a3f0a;
     display: none;
 }
 
-input {
+input,
+button {
     width: 90%;
-    padding: 14px;
-    margin-top: 10px;
+    padding: 3vw;
+    margin-top: 3vw;
     border-radius: 6px;
     border: 1px solid #555;
-    font-size: 18px;
+    font-size: 4.5vw;
 }
 
 button {
-    width: 90%;
-    padding: 14px;
-    margin-top: 14px;
     background: #444;
     color: white;
-    border: none;
-    border-radius: 6px;
     cursor: pointer;
-    font-size: 18px;
 }
 
 /* ----------------------------- */
-/* MOBILE-FIRST OVERRIDE         */
+/* DESKTOP MODE (restore original) */
 /* ----------------------------- */
 
-@media (max-width: 768px) {
-
-    body {
-        padding: 0;
-    }
+@media (min-width: 768px) {
 
     .handheld {
-        width: 100vw;
-        height: 100vh;              /* fill screen */
-        background-size: cover;     /* can crop sides/top/bottom */
-        background-position: center;
-        position: relative;
+        width: 692px;
+        height: 600px;
+        background-size: contain;
     }
 
     .lcd-window {
-        position: absolute;
-        width: 75vw;                /* 75% of screen width */
-        height: calc(75vw * (300 / 280)); /* keep original LCD aspect ratio */
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%); /* center on screen */
+        top: 159px;
+        left: 201px;
+        width: 280px;
+        height: 300px;
+        transform: none; /* remove centering */
     }
 
     #resultBubble {
-        font-size: 5vw;
-        padding: 3vw 4vw;
-    }
-
-    #copyHint,
-    #copiedMsg {
-        font-size: 3.5vw;
+        font-size: 18px;
+        padding: 10px 14px;
     }
 
     input,
     button {
-        font-size: 4.5vw;
-        padding: 3vw;
+        font-size: 18px;
+        padding: 14px;
+    }
+
+    #copyHint,
+    #copiedMsg {
+        font-size: 14px;
     }
 }
 
