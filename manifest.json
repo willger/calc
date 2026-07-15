@@ -1,9 +1,9 @@
 {
-  "name": "Tiger Handheld",
-  "short_name": "Tiger",
+  "name": "Simple Calc",
+  "short_name": "calc",
   "icons": [
     {
-      "src": "tiger-icon.png",
+      "src": "calc-icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
