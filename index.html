@@ -200,5 +200,20 @@ function copyPercent() {
 
 </script>
 
+<script>
+  const bgImages = [
+    'batman.png'
+  ];
+  //  'tiger.png',
+  //  'sonic.png',
+  //  'streetfighter.png',
+  //  'megaman.png'
+  
+  // pick a random image from /images folder
+  const randomImage = bgImages[Math.floor(Math.random() * bgImages.length)];
+  document.querySelector('.handheld').style.backgroundImage = `url('images/${randomImage}')`;
+</script>
+
+
 </body>
 </html>
