@@ -155,6 +155,36 @@ button {
 </div>
 
 <script>
+// Read ?start=### from URL
+function getStartFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const value = params.get("start");
+    return value ? parseFloat(value) : null;
+}
+
+// Load starting weight from either URL or localStorage
+function loadStartingWeight() {
+    const urlValue = getStartFromURL();
+
+    if (!isNaN(urlValue) && urlValue > 0) {
+        // URL overrides stored value
+        localStorage.setItem("startingWeight", urlValue);
+        return urlValue;
+    }
+
+    // Otherwise use stored value
+    const stored = parseFloat(localStorage.getItem("startingWeight"));
+    return !isNaN(stored) ? stored : "";
+}
+
+// Apply starting weight on page load
+document.addEventListener("DOMContentLoaded", () => {
+    const startInput = document.getElementById("start");
+    startInput.value = loadStartingWeight();
+});
+</script>  
+
+<script>
 function calculate() {
     const start = parseFloat(document.getElementById('start').value);
     const current = parseFloat(document.getElementById('current').value);
@@ -199,37 +229,6 @@ function copyPercent() {
 }
 
 </script>
-
-<script>
-// Read ?start=### from URL
-function getStartFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    const value = params.get("start");
-    return value ? parseFloat(value) : null;
-}
-
-// Load starting weight from either URL or localStorage
-function loadStartingWeight() {
-    const urlValue = getStartFromURL();
-
-    if (!isNaN(urlValue) && urlValue > 0) {
-        // URL overrides stored value
-        localStorage.setItem("startingWeight", urlValue);
-        return urlValue;
-    }
-
-    // Otherwise use stored value
-    const stored = parseFloat(localStorage.getItem("startingWeight"));
-    return !isNaN(stored) ? stored : "";
-}
-
-// Apply starting weight on page load
-document.addEventListener("DOMContentLoaded", () => {
-    const startInput = document.getElementById("start");
-    startInput.value = loadStartingWeight();
-});
-</script>
-
 
 <script>
   const bgImages = [
